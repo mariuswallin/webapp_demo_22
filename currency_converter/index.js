@@ -47,6 +47,7 @@ function getCurrencyMessage(currencies) {
   let message = "";
 
   for (const entry of Object.entries(currencies)) {
+    console.log(entry)
     const [short, long] = entry;
     message += `${long}(${short}) `;
   }
