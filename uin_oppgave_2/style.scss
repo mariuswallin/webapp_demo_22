@@ -78,6 +78,7 @@ meter {
   -webkit-user-drag: element;
 }
 
+/* Variabler vi kan benytte med var(--variabelnavn). Eks. var(--green) */
 :root {
   --green: rgb(25, 102, 78);
   --purple: rgb(116, 33, 131);
@@ -101,6 +102,16 @@ html {
     Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
 }
 
+/*
+
+100vh => ta hele høyden til nettleseren
+display: flex; => sentrere med flexbox
+flex-direction: column; => sentrere med flexbox
+justify-content: center; => sentrere med flexbox
+align-items: center; => sentrere med flexbox
+
+*/
+
 main {
   height: 100vh;
   background-color: var(--background);
@@ -116,6 +127,12 @@ div {
   margin: 0 auto;
   width: 100%;
 }
+
+/*
+
+transition => håndterer overgangen mellom to bakgrunnsfarger
+
+*/
 
 button {
   border-radius: 0.5rem;
