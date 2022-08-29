@@ -1,3 +1,5 @@
+const prompt = require('prompt-sync')()
+
 const rates = {
   dkk: 1.34,
   eur: 10,
