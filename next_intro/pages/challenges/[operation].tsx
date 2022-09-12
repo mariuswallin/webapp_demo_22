@@ -86,6 +86,7 @@ export default function ChallengePage() {
         createRandomChallenges({
           count: Number(query.count),
           operation,
+          baseValue: 3,
         })
       );
     }
