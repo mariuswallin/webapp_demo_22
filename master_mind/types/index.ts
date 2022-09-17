@@ -40,10 +40,14 @@ export type Row = {
   name?: `row-${number}`
 }
 
+export type Hint = {
+  name: `${string}-${number}`
+  type: string
+}
+
 export type Hints = {
   positions: number
   colors: number
-  pegs: number
 }
 
 export type Step = { name: 'Start' | 'Spill'; component: JSX.Element }

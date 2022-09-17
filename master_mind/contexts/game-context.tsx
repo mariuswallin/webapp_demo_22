@@ -1,7 +1,8 @@
 /* eslint-disable no-param-reassign */
 import * as React from 'react'
 
-import { Cell, Color, Game, Hints } from 'types'
+import { fillArray } from '@/lib/utils'
+import { Cell, Color, Game, Hint, Hints } from 'types'
 
 const colors: Color[] = [
   'red',
@@ -19,7 +20,7 @@ type GameState = {
   currentRow: number
   currentColor: Color | null
   colors: Color[]
-  hints: Hints[]
+  hints: Hint[][]
   selectedColors: Color[]
   remaningColors: Color[]
   foundCombination: boolean
@@ -39,7 +40,7 @@ export enum ActionType {
 type Action =
   | { type: ActionType.PICKED_COLOR; color: Color }
   | { type: ActionType.RESET_PICKED }
-  | { type: ActionType.SET_HINTS; hints: Hints; rowIndex: number }
+  | { type: ActionType.SET_HINTS; hints: Hints }
   | { type: ActionType.INCREASE_ROW }
   | { type: ActionType.SET_COMPLETE }
   | {
@@ -103,16 +104,23 @@ function gameReducer(state: GameState, action: Action): GameState {
       }
     }
     case ActionType.SET_HINTS: {
-      state.hints[action.rowIndex] = action.hints
+      const createHints = (hint: Hints) => {
+        return Object.keys(hint).flatMap((key) =>
+          fillArray(key, Number(hint[key as keyof Hints])).map((hint) => ({
+            name: hint.name,
+            type: key,
+          }))
+        )
+      }
       return {
         ...state,
+        hints: [...state.hints, createHints(action.hints)],
       }
     }
     case ActionType.INCREASE_ROW: {
       if (state.game && state.currentRow + 1 >= state.game.rows.length) {
         return {
           ...state,
-          hints: [...state.hints, { positions: 0, colors: 0, pegs: 4 }],
           isComplete: true,
         }
       }
@@ -159,7 +167,6 @@ function gameReducer(state: GameState, action: Action): GameState {
       return {
         ...state,
         game: action.game,
-        hints: [{ positions: 0, colors: 0, pegs: 4 }],
       }
     }
     default: {

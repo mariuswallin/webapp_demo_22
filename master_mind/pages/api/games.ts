@@ -11,8 +11,16 @@ export default async function handler(
   const { method } = req
 
   switch (method?.toLowerCase()) {
-    case 'get':
+    case 'post':
       const user = await getUserFromCookie({ req })
+      const rowCount = req.body.data.rows
+
+      if (Number.isNaN(rowCount) || rowCount === 0) {
+        return res.status(400).json({
+          success: false,
+          error: 'Missing rowCount',
+        })
+      }
 
       if (!user) {
         return res.status(400).json({
@@ -27,7 +35,7 @@ export default async function handler(
           id: '1',
           user,
           combination: ['red', 'green', 'blue', 'gray'],
-          rows: createRows(10),
+          rows: createRows(rowCount),
         },
       })
     default:

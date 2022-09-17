@@ -1,17 +1,12 @@
-import { Step } from 'types'
+import { useStepContext } from '@/contexts/step-context'
 
-type StepperProps = {
-  steps: Step[]
-  step: number
-  setStep: (step: number) => void
-}
-
-const Stepper = ({ steps, step, setStep }: StepperProps) => {
+const Stepper = () => {
+  const { step, setSteps, steps, updateStep } = useStepContext()
   return (
     <button
       style={{ marginTop: '2rem' }}
       type="button"
-      onClick={() => setStep(step + 1)}
+      onClick={() => updateStep(step + 1)}
     >
       {steps[step + 1].name}
     </button>
