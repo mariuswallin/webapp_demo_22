@@ -20,6 +20,9 @@ const ColorPicker = ({
       {colors.map((color) => (
         <li key={color} data-testid="color">
           <button
+            data-testid={`${
+              selectedColor && selectedColor === color ? selectedColor : ''
+            }`}
             style={{ backgroundColor: color }}
             className={`${classNames(
               selectedColor && selectedColor === color

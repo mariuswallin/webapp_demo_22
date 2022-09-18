@@ -1,68 +1,39 @@
-import { useState, useEffect, FormEvent } from 'react'
+import { useState } from 'react'
 
-import axios from 'axios'
+type GameFormProps = {
+  handleSubmit: (rows: number) => void
+  isLoading: boolean
+  isError: boolean
+  player: string
+  setPlayer: (player: string) => void
+  error: string
+}
 
-import { useGameContext, ActionType } from '@/contexts/game-context'
-import { useStepContext } from '@/contexts/step-context'
-import { getUserFromCookie } from '@/lib/utils/api'
-
-export default function GameForm() {
-  const [state, dispatch] = useGameContext()
-  const { updateStep } = useStepContext()
+export default function GameForm({
+  handleSubmit,
+  isLoading,
+  isError,
+  player,
+  setPlayer,
+  error,
+}: GameFormProps) {
   const [rows, setRows] = useState(0)
-  const [player, setPlayer] = useState('')
-  const [loading, setLoading] = useState(false)
-  const [error, setError] = useState('')
 
-  const isLoading = loading
-  const isError = !isLoading && error
-
-  useEffect(() => {
-    getUserFromCookie()
-      .then((user) => {
-        if (user) {
-          setPlayer(user)
-        }
-      })
-      .catch((err) => setError(err))
-  }, [])
-
-  const handleStartGame = async (event: FormEvent<HTMLFormElement>) => {
+  const handleStartGame = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault()
-
-    setLoading(true)
-
-    setTimeout(async () => {
-      try {
-        if (player !== state.game.user) {
-          await axios.post('/api/users', {
-            data: { user: player },
-          })
-        }
-        const game = await axios.post('/api/games', {
-          data: { rows },
-        })
-        if (game && player) {
-          setLoading(false)
-          dispatch({
-            type: ActionType.START_GAME,
-            game: game.data.data,
-          })
-          updateStep(1)
-        }
-      } catch (error: any) {
-        setLoading(false)
-        setError(error?.response?.data?.error || error?.message)
-      }
-    }, 300)
+    handleSubmit(rows)
   }
 
   if (isLoading) {
-    return <p>Laster...</p>
+    return <p data-testid="loading">Laster...</p>
   }
 
   return (
-    <form className="game-form" onSubmit={handleStartGame}>
+    <form
+      data-testid="game-form"
+      className="game-form"
+      onSubmit={handleStartGame}
+    >
       <label htmlFor="user">
         <span>Spiller</span>
         <input
@@ -82,7 +53,7 @@ export default function GameForm() {
         />
       </label>
       <button>Start spillet</button>
-      {isError ? <p>{error}</p> : null}
+      {isError ? <p data-testid="error">{error}</p> : null}
     </form>
   )
 }
