@@ -2,11 +2,11 @@ import { NextApiRequest, NextApiResponse } from 'next'
 
 import { createRows } from '@/lib/utils'
 import { getUserFromCookie } from '@/lib/utils/api'
-import type { Response } from 'types'
+import type { Game, Response } from 'types'
 
 export default async function handler(
   req: NextApiRequest,
-  res: NextApiResponse<Response>
+  res: NextApiResponse<Response<Game>>
 ) {
   const { method } = req
 

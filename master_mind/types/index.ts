@@ -20,12 +20,17 @@ export type Data<T> = {
   data: Record<keyof T, T[keyof T]>
 }
 
+export type User = {
+  id: string
+  user: string
+}
+
 export type Error = {
   success: boolean
   error: string
 }
 
-export type Response = Data<Game> | Error
+export type Response<T> = Data<T> | Error
 
 export type Cell = {
   name: `cell-${number}`

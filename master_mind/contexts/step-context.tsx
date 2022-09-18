@@ -1,20 +1,22 @@
-import { createContext, useContext } from 'react'
+import { createContext, Dispatch, SetStateAction, useContext } from 'react'
 
-import useStep from '@/hooks/useStep'
+import Game from '@/components/steps/Game'
+import Start from '@/components/steps/Start'
+import { useStep } from '@/hooks/useStep'
 import { Step } from 'types'
 
 export type StepState = {
   steps: Step[]
   step: number
-  setStep: (step: number) => void
-  setSteps: () => void
+  setSteps: Dispatch<SetStateAction<Step[]>>
+  updateStep: (step: number) => void
 }
 
 const initialState: StepState = {
   step: 0,
   steps: [],
   setSteps: () => {},
-  setStep: () => {},
+  updateStep: () => {},
 }
 
 const StepContext = createContext(initialState)
@@ -24,7 +26,12 @@ export default function StepProvider({
 }: {
   children: React.ReactNode
 }) {
-  const { setSteps, step, steps, updateStep } = useStep()
+  const { setSteps, step, steps, updateStep } = useStep({
+    initialSteps: [
+      { name: 'Start', component: <Start /> },
+      { name: 'Spill', component: <Game /> },
+    ],
+  })
 
   return (
     <StepContext.Provider value={{ step, steps, setSteps, updateStep }}>

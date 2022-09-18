@@ -1,4 +1,4 @@
-import type { Cell, FillArray, Peg, Row } from 'types'
+import type { Cell, FillArray, Row } from 'types'
 
 export const fillArray = <T extends string>(
   name: string,
@@ -15,14 +15,8 @@ export const createCell = (size: number): Cell[] =>
     .fill(null)
     .map((_, i) => ({ name: `cell-${i}`, background: 'transparent' }))
 
-export const createPegs = (pegs: number): Peg[] =>
-  Array(pegs)
-    .fill(null)
-    .map((_, i) => ({ name: `peg-${i}` }))
-
 export const createRow = (n = 4) => {
   return {
-    pegs: createPegs(n),
     cells: createCell(n),
     hints: null,
   }

@@ -1,7 +1,9 @@
+import { useStepContext } from '@/contexts/step-context'
 import useRow from '@/hooks/useRow'
 
 const Solution = () => {
   const { state } = useRow()
+  const { updateStep } = useStepContext()
 
   const resultMessage = state.foundCombination
     ? 'Du fant rett kombinasjon. Start et nytt spill.'
@@ -13,6 +15,9 @@ const Solution = () => {
       <div>
         <p>Du brukte {state.currentRow + 1} forsøk</p>
         <p>Kombinasjonen var {JSON.stringify(state.game.combination)}</p>
+        <button type="button" onClick={() => updateStep(0)}>
+          Start nytt spill
+        </button>
       </div>
     </>
   )

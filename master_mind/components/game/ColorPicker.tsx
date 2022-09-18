@@ -5,6 +5,11 @@ type ColorPickerProps = {
   selectedColor: Color | null
   handleSelectedColor: (color: Color) => void
 }
+
+const classNames = (...classes: string[]) => {
+  return classes.filter(Boolean).join(' ')
+}
+
 const ColorPicker = ({
   colors,
   selectedColor,
@@ -15,10 +20,13 @@ const ColorPicker = ({
       {colors.map((color) => (
         <li key={color} data-testid="color">
           <button
-            style={{
-              backgroundColor: color,
-              opacity: selectedColor ? (selectedColor === color ? 1 : 0.2) : 1,
-            }}
+            style={{ backgroundColor: color }}
+            className={`${classNames(
+              selectedColor && selectedColor === color
+                ? 'row-form-button-selected'
+                : '',
+              'row-form-button'
+            )}`}
             disabled={Boolean(selectedColor) && selectedColor !== color}
             onClick={() => handleSelectedColor(color)}
           ></button>

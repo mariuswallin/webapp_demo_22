@@ -17,22 +17,25 @@ const Game = () => {
   }
 
   return (
-    <div className="rows">
-      {state.game.rows?.map((row, index) => (
-        <div className="row-wrapper" key={row?.name}>
-          {state.currentRow >= index ? (
-            isCurrentRow(row?.number) ? (
-              <RowForm row={row} />
-            ) : (
-              <>
-                <Row row={row} />
-                <Hint hints={state.hints[row?.number]} />
-              </>
-            )
-          ) : null}
-        </div>
-      ))}
-    </div>
+    <section>
+      <h3>Antall forsøk er {state.game.rows.length}</h3>
+      <div className="rows">
+        {state.game.rows?.map((row, index) => (
+          <div className="row-wrapper" key={row?.name}>
+            {state.currentRow >= index ? (
+              isCurrentRow(row?.number) ? (
+                <RowForm row={row} />
+              ) : (
+                <>
+                  <Row row={row} />
+                  <Hint hints={state.hints[row?.number]} />
+                </>
+              )
+            ) : null}
+          </div>
+        ))}
+      </div>
+    </section>
   )
 }
 

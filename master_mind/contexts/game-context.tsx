@@ -165,7 +165,7 @@ function gameReducer(state: GameState, action: Action): GameState {
     }
     case ActionType.START_GAME: {
       return {
-        ...state,
+        ...initialState,
         game: action.game,
       }
     }

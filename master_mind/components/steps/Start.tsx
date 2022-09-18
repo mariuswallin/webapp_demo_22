@@ -1,35 +1,6 @@
-import { FormEvent, useState } from 'react'
-
-import axios from 'axios'
-
-import { ActionType, useGameContext } from '@/contexts/game-context'
-import { useStepContext } from '@/contexts/step-context'
-import { createUser } from '@/lib/utils/api'
+import GameForm from '../game/GameForm'
 
 const Start = () => {
-  const [, dispatch] = useGameContext()
-  const { updateStep } = useStepContext()
-  const [rows, setRows] = useState(0)
-
-  const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
-    event.preventDefault()
-    createUser()
-    try {
-      const game = await axios.post('/api/games', {
-        data: { rows },
-      })
-      if (game) {
-        dispatch({
-          type: ActionType.START_GAME,
-          game: game.data.data,
-        })
-      }
-      updateStep(1)
-    } catch (error) {
-      console.log(error)
-    }
-  }
-
   return (
     <div className="start">
       <h1>Velkommen til Master Mind</h1>
@@ -49,13 +20,7 @@ const Start = () => {
           Det er selvsagt om å gjøre å gjette koden ved å bruke færrest mulig
           forsøk.
         </li>
-        <form onSubmit={handleSubmit}>
-          <input
-            type="number"
-            onChange={(event) => setRows(Number(event.target.value))}
-          />
-          <button>Start spillet</button>
-        </form>
+        <GameForm />
       </ul>
     </div>
   )

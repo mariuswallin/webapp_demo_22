@@ -18,7 +18,7 @@ export const getUserFromCookie = async (
   return null
 }
 
-function setUserCookie(username: string) {
+export function setUserCookie(username: string) {
   setCookie(null, 'user', username, {
     maxAge: 30 * 24 * 60 * 60,
     path: '/',
@@ -30,5 +30,7 @@ const createRandomUser = () => {
 }
 
 export const createUser = () => {
+  const user = getUserFromCookie()
+  if (user) return user
   setUserCookie(createRandomUser())
 }
