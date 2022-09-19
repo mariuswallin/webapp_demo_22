@@ -16,7 +16,7 @@ describe('Board', () => {
   })
 
   describe('Creating row', () => {
-    it('should have a list of 4 pegs and cells given 4 as argument', () => {
+    it('should have a list of 4 cells given 4 as argument', () => {
       const row = createRow(4)
 
       expect(row.cells.length).toBe(4)
@@ -24,7 +24,7 @@ describe('Board', () => {
   })
 
   describe('Creating rows', () => {
-    it('should have one row with 4 pegs and cells given 1 as argument', () => {
+    it('should have one row with 4 cells given 1 as argument', () => {
       const rows = createRows(1)
 
       expect(rows.length).toBe(1)
@@ -32,7 +32,7 @@ describe('Board', () => {
       expect(rows[0].cells.length).toBe(4)
     })
 
-    it('should have 10 rows with 4 pegs and cells given 10 as argument', () => {
+    it('should have 10 rows with 4 cells given 10 as argument', () => {
       const rows = createRows(10)
 
       expect(rows.length).toBe(10)
