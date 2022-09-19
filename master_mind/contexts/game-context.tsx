@@ -71,16 +71,20 @@ const GameContext = React.createContext<
   [GameState, React.Dispatch<Action>] | undefined
 >(undefined)
 
-const getRemainingColors = (
+export const getRemainingColors = (
+  allColors = colors,
   selectedColors: GameState['selectedColors'],
   currentColor: GameState['currentColor']
 ) => {
+  if (!currentColor) return allColors
+
   const availableColors = colors.filter((color) => color !== currentColor)
+
+  if (selectedColors?.length === 0) return availableColors
+
   const alreadySelectedIndex = selectedColors?.findIndex(
     (color) => color === currentColor
   )
-
-  if (selectedColors?.length === 0) return availableColors
 
   if (alreadySelectedIndex >= 0 && currentColor) {
     selectedColors[alreadySelectedIndex] = currentColor
@@ -156,6 +160,7 @@ function gameReducer(state: GameState, action: Action): GameState {
       return {
         ...state,
         remaningColors: getRemainingColors(
+          colors,
           state.selectedColors,
           state.currentColor
         ),
