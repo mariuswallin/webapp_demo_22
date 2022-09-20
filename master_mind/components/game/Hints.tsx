@@ -4,6 +4,17 @@ type HintsProps = {
   hints: HintType[]
 }
 
+const hintColor = (type: string) => {
+  switch (type) {
+    case 'positions':
+      return 'black'
+    case 'colors':
+      return 'grey'
+    default:
+      return 'transparent'
+  }
+}
+
 const Hint = ({ hints }: HintsProps) => {
   return (
     <div className="pegs">
@@ -12,12 +23,7 @@ const Hint = ({ hints }: HintsProps) => {
           key={name}
           className="peg"
           style={{
-            backgroundColor:
-              type === 'positions'
-                ? 'black'
-                : type === 'colors'
-                ? 'grey'
-                : 'transparent',
+            backgroundColor: hintColor(type),
           }}
         ></div>
       ))}

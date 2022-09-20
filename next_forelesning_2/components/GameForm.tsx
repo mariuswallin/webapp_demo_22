@@ -1,3 +1,4 @@
+// TODO: Fjerne setStep, setPlayer, SetRows
 export default function GameForm({
   setStep,
   setPlayer,
@@ -5,6 +6,8 @@ export default function GameForm({
   player,
   rows,
 }: any) {
+  // Todo: Tilbakeføre intern state
+
   const handlePlayerChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setPlayer(event.target.value);
   };
@@ -13,6 +16,8 @@ export default function GameForm({
     setRows(Number(event.target.value));
   };
 
+  // TODO: Utvide og endre navn på handleSubmit
+  // TODO: Sende player og rows tilbake til Start.tsx
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     if (!player || !Number(rows) || rows <= 0) return;

@@ -8,6 +8,7 @@ const rowData = {
   ],
 };
 
+// TODO: Ta i mot handleCellClick
 export default function Row() {
   return (
     <div className="row-inner-wrapper">

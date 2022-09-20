@@ -8,6 +8,10 @@ import { useState } from "react";
 //   { name: "Game", component: <Game /> },
 // ];
 
+// TODO: Bruk useStepContext
+// TODO: Ha en if som sjekker "name", og deretter returnerer en gitt komponent
+// Unngår å måtte ha component som () => <Start /> og ha generelle props
+
 const Home: NextPage = () => {
   const [step, setStep] = useState(1);
   const [player, setPlayer] = useState("Joakim");
