@@ -1,10 +1,9 @@
-/* eslint-disable no-param-reassign */
 import * as React from 'react'
 
 import { fillArray } from '@/lib/utils'
-import { Cell, Color, Game, Hint, Hints } from 'types'
+import { Cell, Color, Game, GameState, Hints } from 'types'
 
-const colors: Color[] = [
+export const colors: Color[] = [
   'red',
   'green',
   'blue',
@@ -15,25 +14,13 @@ const colors: Color[] = [
   'gray',
 ]
 
-type GameState = {
-  game: Game
-  currentRow: number
-  currentColor: Color | null
-  colors: Color[]
-  hints: Hint[][]
-  selectedColors: Color[]
-  remaningColors: Color[]
-  foundCombination: boolean
-  isComplete: boolean
-}
-
 export enum ActionType {
   PICKED_COLOR = 'picked_color',
   RESET_PICKED = 'reset_picked_color',
   SET_HINTS = 'set_hints',
   INCREASE_ROW = 'increase_row',
   SET_COMPLETE = 'set_complete',
-  SET_ROW_COLORS = 'set_row_colors',
+  SET_ROW_COLOR = 'set_row_color',
   START_GAME = 'start_game',
 }
 
@@ -44,9 +31,8 @@ type Action =
   | { type: ActionType.INCREASE_ROW }
   | { type: ActionType.SET_COMPLETE }
   | {
-      type: ActionType.SET_ROW_COLORS
+      type: ActionType.SET_ROW_COLOR
       cell: Cell['name']
-      selectedColor: Color
     }
   | { type: ActionType.START_GAME; game: Game }
 
@@ -76,21 +62,29 @@ export const getRemainingColors = (
   selectedColors: GameState['selectedColors'],
   currentColor: GameState['currentColor']
 ) => {
-  if (!currentColor) return allColors
+  const availableColors = allColors
+    .filter((color) => !selectedColors?.includes(color))
+    .filter((color) => color !== currentColor)
 
-  const availableColors = colors.filter((color) => color !== currentColor)
+  return availableColors
+}
 
-  if (selectedColors?.length === 0) return availableColors
+export const updateSelectedColors = (
+  selectedColors: GameState['selectedColors'],
+  selectedColor: GameState['currentColor'],
+  selectedColorPosition: number
+) => {
+  const selectedColorsCopy = [...selectedColors]
 
-  const alreadySelectedIndex = selectedColors?.findIndex(
-    (color) => color === currentColor
-  )
+  if (!selectedColor || selectedColorsCopy.includes(selectedColor))
+    return selectedColorsCopy
 
-  if (alreadySelectedIndex >= 0 && currentColor) {
-    selectedColors[alreadySelectedIndex] = currentColor
-  }
+  if (selectedColorPosition < 0 || selectedColorPosition > 3)
+    return selectedColorsCopy
 
-  return availableColors.filter((color) => !selectedColors?.includes(color))
+  selectedColorsCopy[selectedColorPosition] = selectedColor
+
+  return selectedColorsCopy
 }
 
 function gameReducer(state: GameState, action: Action): GameState {
@@ -143,11 +137,11 @@ function gameReducer(state: GameState, action: Action): GameState {
         isComplete: true,
       }
     }
-    case ActionType.SET_ROW_COLORS: {
-      if (!state.game) return { ...state }
+    case ActionType.SET_ROW_COLOR: {
+      if (!state.game || !state.currentColor) return { ...state }
 
       const selectedCellName = action.cell
-      const selectedColor = action.selectedColor
+      const selectedColor = state.currentColor
       const currentRow = state.game.rows[state.currentRow]
       const currentCellIndex = currentRow.cells.findIndex(
         (rowCell) => rowCell.name === selectedCellName
@@ -155,17 +149,24 @@ function gameReducer(state: GameState, action: Action): GameState {
 
       currentRow.cells[currentCellIndex].background =
         state.currentColor ?? 'transparent'
-      state.selectedColors[currentCellIndex] = selectedColor
+      //state.selectedColors[currentCellIndex] = selectedColor
+
+      const selectedColors = updateSelectedColors(
+        state.selectedColors,
+        selectedColor,
+        currentCellIndex
+      )
+      const remaningColors = getRemainingColors(
+        colors,
+        selectedColors,
+        state.currentColor
+      )
 
       return {
         ...state,
-        remaningColors: getRemainingColors(
-          colors,
-          state.selectedColors,
-          state.currentColor
-        ),
+        remaningColors,
         currentColor: null,
-        selectedColors: [...state.selectedColors],
+        selectedColors,
       }
     }
     case ActionType.START_GAME: {

@@ -56,3 +56,17 @@ export type Hints = {
 }
 
 export type Step = { name: 'Start' | 'Spill'; component: JSX.Element }
+
+export type GameState = {
+  game: Game
+  currentRow: number
+  currentColor: Color | null
+  colors: Color[]
+  hints: Hint[][]
+  selectedColors: Color[]
+  remaningColors: Color[]
+  foundCombination: boolean
+  isComplete: boolean
+}
+
+export type Combination = [Color, Color, Color, Color]

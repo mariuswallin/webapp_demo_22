@@ -43,9 +43,8 @@ export default function useRow() {
   const handleCellClick = (cellName: Cell['name']) => {
     if (state.currentColor) {
       dispatch({
-        type: ActionType.SET_ROW_COLORS,
+        type: ActionType.SET_ROW_COLOR,
         cell: cellName,
-        selectedColor: state.currentColor,
       })
     }
   }
