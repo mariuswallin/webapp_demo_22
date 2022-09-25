@@ -1,8 +1,7 @@
 import GameForm from "./GameForm";
 
-// TODO: Lage createGame funksjon som "sender game-objekt tilbake"
-// TODO: Ta i mot en props som gjør at vi kan "fake" at den feiler
-
+// TODO: Ta i mot handleSubmit
+// TODO: Ta i mot nødvendige props for å vise frem
 export default function Start({
   setStep,
   setPlayer,
@@ -10,11 +9,6 @@ export default function Start({
   player,
   rows,
 }: any) {
-  // TODO: Fake at vi skal sende data
-  // TODO: Legge til loading, error og data (via createGame)
-  // TODO: Lage funksjon for handleSubmit
-  // TODO: Oppdatere step om submit fullføres
-
   return (
     <div className="start">
       <h1>Velkommen til Master Mind</h1>
