@@ -1,4 +1,4 @@
-// TODO: Fjerne setStep, setPlayer, SetRows
+// TODO: Fjerne props og erstatte med handleSubmit
 export default function GameForm({
   setStep,
   setPlayer,

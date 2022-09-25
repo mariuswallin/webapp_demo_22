@@ -9,6 +9,10 @@ const rowData = {
 };
 
 // TODO: Ta i mot handleCellClick
+// TODO: Ta i mot handleRowSubmit
+// TODO: Ta i mot isCurrentRow
+// TODO: Utvide til å være et form (se RowForm)
+// TODO: Bruke isCurrentRow til å avgjøre hva som skal være mulig å gjøre
 export default function Row() {
   return (
     <div className="row-inner-wrapper">

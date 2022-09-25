@@ -30,7 +30,7 @@ const initialState = {
   isComplete: false,
 };
 
-const GameContext = React.createContext({});
+const GameContext = React.createContext(undefined as any);
 
 export default function GameContextProvider({ children }: any) {
   const row = useRow(initialState as any);

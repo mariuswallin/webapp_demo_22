@@ -92,7 +92,7 @@ export default function useRow(initialState: GameState) {
     [state.currentRow]
   );
 
-  const handleRowSubmit = async (event: FormEvent<HTMLFormElement>) => {
+  const handleRowSubmit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     // if (!isValidGame(state.colors, state.game)) return
 
@@ -156,7 +156,7 @@ export default function useRow(initialState: GameState) {
     }
   };
 
-  const handleSelectedColor = async (color: Color) => {
+  const handleSelectedColor = (color: Color) => {
     if (state?.currentColor === color) {
       setState((prev) => ({ ...prev, currentColor: null }));
     } else {
@@ -164,10 +164,17 @@ export default function useRow(initialState: GameState) {
     }
   };
 
-  const handleStartGame = (game: Game) => {
-    if (!isValidGame(state.colors, game)) throw new Error("Game is not valid");
-    setState({ ...initialState, game });
-  };
+  // TODO: Wrap i useCallback. Ellers vil det å kalle denne i en useEffect trigge
+  // en rerender av komponenten, som medfører at denne blir laget på nytt
+  // som fører til en ny rerender på grunn av [dep]. Infinite loop
+  const handleStartGame = useCallback(
+    (game: Game) => {
+      if (!isValidGame(state.colors, game))
+        throw new Error("Game is not valid");
+      setState({ ...initialState, game });
+    },
+    [initialState, state.colors]
+  );
 
   return {
     isCurrentRow,
