@@ -43,6 +43,7 @@ const initialState: GameState = {
     combination: [],
     rows: [],
   },
+  rawHints: [],
   currentColor: null,
   currentRow: 0,
   hints: [],
@@ -113,6 +114,7 @@ function gameReducer(state: GameState, action: Action): GameState {
       return {
         ...state,
         hints: [...state.hints, createHints(action.hints)],
+        rawHints: [...state.rawHints, action.hints],
       }
     }
     case ActionType.INCREASE_ROW: {

@@ -62,7 +62,8 @@ export type GameState = {
   currentRow: number
   currentColor: Color | null
   colors: Color[]
-  hints: Hint[][]
+  hints: Array<Hint[]>
+  rawHints: Hints[]
   selectedColors: Color[]
   remaningColors: Color[]
   foundCombination: boolean

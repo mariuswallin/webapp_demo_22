@@ -61,6 +61,7 @@ export type GameState = {
   game: Game;
   currentRow: number;
   currentColor: Color | null;
+  rawHints: Hints[];
   colors: Color[];
   hints: Hint[][];
   selectedColors: Color[];

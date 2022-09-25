@@ -1,6 +1,6 @@
 import { FormEvent, useCallback, useState } from 'react'
 
-import { Cell, Color, Game, GameState, Hints } from '../types'
+import { Cell, Color, Game, GameState, Hint, Hints } from '../types'
 
 const colors: Color[] = [
   'red',
@@ -77,7 +77,7 @@ export const updateSelectedColors = (
   return selectedColorsCopy
 }
 
-const createHints = (hint: Hints) => {
+const createHints = (hint: Hints): Hint[] => {
   return Object.keys(hint).flatMap((key) =>
     Array(Number(hint[key as keyof Hints]))
       .fill(null)
@@ -86,7 +86,7 @@ const createHints = (hint: Hints) => {
         name: hint.name,
         type: key,
       }))
-  )
+  ) as Hint[]
 }
 
 export const isValidGame = (colors: Color[], game: Game) => {
@@ -111,28 +111,31 @@ export default function useRow(initialState: GameState) {
 
   const handleRowSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault()
+    // if (!isValidGame(state.colors, state.game)) return
+
     const hints = getHints(state.selectedColors, state.game.combination)
     const createdHints = createHints(hints)
 
-    setState((prev) => ({ ...prev, hints: { ...prev.hints, createdHints } }))
-    if (hints?.positions === 4) {
+    if (state.currentRow + 1 >= state.game.rows.length) {
       setState((prev) => ({
         ...prev,
         isComplete: true,
-        foundCombination: true,
+        foundCombination: hints?.positions === 4,
+        rawHints: [...state.rawHints, hints],
+        hints: [...prev.hints, createdHints],
       }))
-    } else {
-      if (state.game && state.currentRow + 1 >= state.game.rows.length) {
-        setState((prev) => ({ ...prev, isComplete: true }))
-      } else {
-        setState((prev) => ({
-          ...prev,
-          currentRow: state.currentRow + 1,
-          selectedColors: [],
-          remaningColors: colors,
-        }))
-      }
+      return
     }
+
+    setState((prev) => ({
+      ...prev,
+      currentRow: state.currentRow + 1,
+      selectedColors: [],
+      remaningColors: colors,
+      rawHints: [...state.rawHints, hints],
+      hints: [...prev.hints, createdHints],
+      foundCombination: hints?.positions === 4,
+    }))
   }
 
   const handleCellClick = (cellName: Cell['name']) => {
@@ -145,6 +148,7 @@ export default function useRow(initialState: GameState) {
       )
 
       // TODO: OBS: Mutating global state
+      // TODO: Should have rowColors to easier "mock" row-cell-backgroundcolor
       currentRow.cells[currentCellIndex].background =
         state.currentColor ?? 'transparent'
 
