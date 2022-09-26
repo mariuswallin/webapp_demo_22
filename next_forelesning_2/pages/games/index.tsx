@@ -21,7 +21,6 @@ export default function GamesPage() {
             { name: "cell-2", background: "transparent" },
             { name: "cell-3", background: "transparent" },
           ],
-          hints: null,
         },
         {
           number: 1,
@@ -32,7 +31,6 @@ export default function GamesPage() {
             { name: "cell-2", background: "transparent" },
             { name: "cell-3", background: "transparent" },
           ],
-          hints: null,
         },
         {
           number: 2,
@@ -43,7 +41,6 @@ export default function GamesPage() {
             { name: "cell-2", background: "transparent" },
             { name: "cell-3", background: "transparent" },
           ],
-          hints: null,
         },
         {
           number: 3,
@@ -54,7 +51,6 @@ export default function GamesPage() {
             { name: "cell-2", background: "transparent" },
             { name: "cell-3", background: "transparent" },
           ],
-          hints: null,
         },
       ],
     });

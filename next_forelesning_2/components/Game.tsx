@@ -1,8 +1,7 @@
 import Row from "./Row";
 
 type GameProps = {
-  player: string;
-  rows: number;
+  game: Record<string, any>;
 };
 
 // TODO: Konvertere til game-context, med useRow etc om 2 uker

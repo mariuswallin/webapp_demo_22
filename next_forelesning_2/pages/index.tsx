@@ -19,7 +19,48 @@ const initialState = {
     id: "",
     user: "",
     combination: [],
-    rows: [],
+    rows: [
+      {
+        number: 0,
+        name: "row-0",
+        cells: [
+          { name: "cell-0", background: "transparent" },
+          { name: "cell-1", background: "transparent" },
+          { name: "cell-2", background: "transparent" },
+          { name: "cell-3", background: "transparent" },
+        ],
+      },
+      {
+        number: 1,
+        name: "row-1",
+        cells: [
+          { name: "cell-0", background: "transparent" },
+          { name: "cell-1", background: "transparent" },
+          { name: "cell-2", background: "transparent" },
+          { name: "cell-3", background: "transparent" },
+        ],
+      },
+      {
+        number: 2,
+        name: "row-2",
+        cells: [
+          { name: "cell-0", background: "transparent" },
+          { name: "cell-1", background: "transparent" },
+          { name: "cell-2", background: "transparent" },
+          { name: "cell-3", background: "transparent" },
+        ],
+      },
+      {
+        number: 3,
+        name: "row-3",
+        cells: [
+          { name: "cell-0", background: "transparent" },
+          { name: "cell-1", background: "transparent" },
+          { name: "cell-2", background: "transparent" },
+          { name: "cell-3", background: "transparent" },
+        ],
+      },
+    ],
   },
   currentColor: null,
   currentRow: 0,
@@ -43,12 +84,19 @@ const initialState = {
 
 const Home: NextPage = () => {
   const [step, setStep] = useState(0);
-  const [game, setGame] = useState(initialState);
+  const [game, setGame] = useState<any>(initialState);
 
-  // Ha en "game-state" som lagrer denne infoen
   // Oppdatere step / Lagre step i game
   const handleSubmit = ({ player, rows }) => {
-    console.log(player, rows);
+    setGame((prev) => ({
+      ...prev,
+      game: {
+        ...prev.game,
+        id: "1",
+        user: player,
+        combination: ["red", "blue", "orange", "cyan"],
+      },
+    }));
   };
 
   return (
@@ -60,8 +108,7 @@ const Home: NextPage = () => {
         </>
       ) : (
         <>
-          {/* Erstatte med "game" prop (for å unngå for mange props) */}
-          <Game player={""} rows={0} />
+          <Game game={game} />
         </>
       )}
     </main>
