@@ -7,10 +7,12 @@ type GameProps = {
 
 // TODO: Konvertere til game-context, med useRow etc om 2 uker
 
-// TODO: Ta i mot game objekt
+// TODO: Ta i mot game objekt (som blant annet har isCompleted)
 // TODO: Ta i mot isCompleted
 // TODO: Lage Solution component for å vise løsningen / om vi klarte det og antall forsøk
 export default function Game({ player, rows }: GameProps) {
+  // TODO: Ha en "rowState" som tar i mot "gameState som initial"
+  // Oppdatere denne med funksjonene under
   // TODO: Lage currentRow state
   const isCurrentRow = () => {
     // TODO: Bruke til å sjekke om en vi er på en gitt rad

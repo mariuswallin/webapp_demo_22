@@ -20,7 +20,7 @@ export default function Row() {
         <p>{rowData.number}</p>
         <div className="cells">
           {rowData.cells.map((cell) => (
-            <div key={cell.cellname} className="cells">
+            <div key={cell.cellname} className="cell">
               <button
                 className="cellButton"
                 type="button"

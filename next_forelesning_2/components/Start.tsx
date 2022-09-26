@@ -1,14 +1,6 @@
 import GameForm from "./GameForm";
 
-// TODO: Ta i mot handleSubmit
-// TODO: Ta i mot nødvendige props for å vise frem
-export default function Start({
-  setStep,
-  setPlayer,
-  setRows,
-  player,
-  rows,
-}: any) {
+export default function Start({ handleSubmit }: any) {
   return (
     <div className="start">
       <h1>Velkommen til Master Mind</h1>
@@ -44,13 +36,7 @@ export default function Start({
         />
 
       */}
-      <GameForm
-        setStep={setStep}
-        setPlayer={setPlayer}
-        setRows={setRows}
-        rows={rows}
-        player={player}
-      />
+      <GameForm handleSubmit={handleSubmit} />
     </div>
   );
 }

@@ -1,12 +1,8 @@
-// TODO: Fjerne props og erstatte med handleSubmit
-export default function GameForm({
-  setStep,
-  setPlayer,
-  setRows,
-  player,
-  rows,
-}: any) {
-  // Todo: Tilbakeføre intern state
+import { useState } from "react";
+
+export default function GameForm({ handleSubmit }: any) {
+  const [player, setPlayer] = useState("");
+  const [rows, setRows] = useState(0);
 
   const handlePlayerChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setPlayer(event.target.value);
@@ -16,16 +12,14 @@ export default function GameForm({
     setRows(Number(event.target.value));
   };
 
-  // TODO: Utvide og endre navn på handleSubmit
-  // TODO: Sende player og rows tilbake til Start.tsx
-  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+  const handleGameSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     if (!player || !Number(rows) || rows <= 0) return;
-    setStep(1);
+    handleSubmit({ player, rows });
   };
 
   return (
-    <form className="game-form" onSubmit={handleSubmit}>
+    <form className="game-form" onSubmit={handleGameSubmit}>
       <label htmlFor="player">
         <span>Spiller</span>
         <input
