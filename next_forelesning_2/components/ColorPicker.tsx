@@ -1,16 +1,42 @@
-// TODO: Lag classNames funksjon
+import { Color } from "../types";
 
-// TODO: Ta i mot colors (valgene)
-// TODO: Ta i mot selectedColor
-// TODO: Ta i mot handleSelectColor
-const ColorPicker = () => {
-  // TODO: Gå igjennom listen med farger
-  /*
-  <ul><li><button></button></li></ul>
-  */
-  // TODO: Dynamisk legge til klasse når selectedColor === color
-  // TODO: Disable knapper som ikke er lik selectedColor
-  return <p>ColorPicker</p>;
+type ColorPickerProps = {
+  colors: Color[];
+  selectedColor: Color | null;
+  handleSelectedColor: (color: Color) => void;
+};
+
+const classNames = (...classes: string[]) => {
+  return classes.filter(Boolean).join(" ");
+};
+
+const ColorPicker = ({
+  colors,
+  selectedColor,
+  handleSelectedColor,
+}: ColorPickerProps) => {
+  return (
+    <ul className="colorPicker">
+      {colors.map((color) => (
+        <li key={color} data-testid="color">
+          <button
+            data-testid={`${
+              selectedColor && selectedColor === color ? selectedColor : ""
+            }`}
+            style={{ backgroundColor: color }}
+            className={`${classNames(
+              selectedColor && selectedColor === color
+                ? "row-form-button-selected"
+                : "",
+              "row-form-button"
+            )}`}
+            disabled={Boolean(selectedColor) && selectedColor !== color}
+            onClick={() => handleSelectedColor(color)}
+          ></button>
+        </li>
+      ))}
+    </ul>
+  );
 };
 
 export default ColorPicker;

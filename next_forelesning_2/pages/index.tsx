@@ -97,6 +97,7 @@ const Home: NextPage = () => {
         combination: ["red", "blue", "orange", "cyan"],
       },
     }));
+    setStep(1);
   };
 
   return (

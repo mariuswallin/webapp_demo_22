@@ -1,3 +1,4 @@
+import useRow from "../hooks/useRow";
 import Row from "./Row";
 
 type GameProps = {
@@ -6,10 +7,9 @@ type GameProps = {
 
 // TODO: Konvertere til game-context, med useRow etc om 2 uker
 
-// TODO: Ta i mot game objekt (som blant annet har isCompleted)
-// TODO: Ta i mot isCompleted
 // TODO: Lage Solution component for å vise løsningen / om vi klarte det og antall forsøk
-export default function Game({ player, rows }: GameProps) {
+export default function Game({ game }: GameProps) {
+  const { state, handleCellClick } = useRow(game);
   // TODO: Ha en "rowState" som tar i mot "gameState som initial"
   // Oppdatere denne med funksjonene under
   // TODO: Lage currentRow state
@@ -36,11 +36,26 @@ export default function Game({ player, rows }: GameProps) {
     // Hvis ikke sette currentColor til fargen sendt inn
   };
 
+  const handleCellClick = () => {};
+
+  if (!game.game.id) {
+    return <p>Spill eksisterer ikke</p>;
+  }
+
   return (
     <>
-      <h1>Velkommen {player}</h1>
-      <p>Antall mulig forsøk er {rows}</p>
-      <Row />
+      <h1>Velkommen {game.game.user}</h1>
+      <p>Antall mulig forsøk er {game.game.rows.length}</p>
+      {game.game.rows.map((row) => (
+        <Row
+          key={row.number}
+          row={row}
+          isCurrentRow={isCurrentRow}
+          handleRowSubmit={handleRowSubmit}
+          handleSelectedColor={handleSelectedColor}
+          handleCellClick={handleCellClick}
+        />
+      ))}
     </>
   );
 }
