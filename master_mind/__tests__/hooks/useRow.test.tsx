@@ -25,7 +25,7 @@ const initialState: GameState = {
   isComplete: false,
 }
 
-describe('useStep hook', () => {
+describe('useRow hook', () => {
   it('should exist', () => {
     const { result } = renderHook(() => useRow(initialState))
     expect(result).toBeDefined()
