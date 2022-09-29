@@ -41,7 +41,7 @@ const objTwo = {
 const promise = (value, resolved = true) =>
   new Promise((resolve, reject) => {
     if (resolved) {
-      resolve([value]);
+      resolve(value);
     } else {
       reject("REJECTED");
     }
@@ -50,13 +50,13 @@ const promise = (value, resolved = true) =>
 const anotherPromise = (value, resolved = true) =>
   new Promise((resolve, reject) => {
     if (resolved) {
-      resolve([value]);
+      resolve(value);
     } else {
       reject("REJECTED");
     }
   });
 
-const promises = [promise(obj), anotherPromise(objTwo)];
+const promises = [promise([obj, obj]), anotherPromise([objTwo])];
 
 const handler = async () => {
   const result = await Promise.all(
@@ -80,7 +80,7 @@ const handler = async () => {
       ).catch(err => console.log("FINAL", err))
     )
   );
-  console.log(result);
+  console.log(result.filter(Boolean));
 };
 
 handler();
