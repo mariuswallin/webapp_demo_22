@@ -21,7 +21,7 @@ const obj = {
 const objTwo = {
   name: "Name",
   async options() {
-    try {
+    // try {
       return [
         {
           id: 1,
@@ -32,10 +32,9 @@ const objTwo = {
           value: await api(),
         },
       ];
-    } catch (error) {
-      console.log("ERR", error);
-      throw new Error(error);
-    }
+    // } catch (error) {
+    //   throw error;
+    // }
   },
 };
 
@@ -65,16 +64,20 @@ const handler = async () => {
       promise.then((x) =>
         Promise.all(
           x.map(async (e) => {
-            return {
-              name: typeof e.name === "function" ? await e.name() : e.name,
-              options:
-                typeof e.options === "function"
-                  ? await e.options()
-                  : e.options,
-            };
+            try {
+              return {
+                name: typeof e.name === "function" ? await e.name() : e.name,
+                options:
+                  typeof e.options === "function"
+                    ? await e.options()
+                    : e.options,
+              };
+            } catch (error) {
+              throw error
+            }
           })
         )
-      )
+      ).catch(err => console.log("FINAL", err))
     )
   );
   console.log(result);
