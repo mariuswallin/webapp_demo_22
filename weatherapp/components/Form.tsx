@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
 import { Place } from '../types'
 
-type FormData = { name: string; email: string, currentLocation?: Place } 
+type FormData = { name: string; email: string; currentLocation?: Place }
 
 type FormProps = {
   handleSubmit: ({ name, email }: FormData) => void
@@ -76,7 +76,7 @@ export default function Form({ handleSubmit, currentLocation }: FormProps) {
           Noe gikk galt
         </span>
       ) : null}
-      <button>Send</button>
+      <button disabled={!isValid(data)}>Send</button>
     </form>
   )
 }

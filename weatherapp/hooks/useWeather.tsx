@@ -15,6 +15,7 @@ export default function useWeather(initialData?: WeatherData[]) {
       setWeather(updatedWeather)
     }
   }
+  
   return {
     handleUpdateWeather,
     weather,
