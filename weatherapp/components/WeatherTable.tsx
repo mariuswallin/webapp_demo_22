@@ -10,7 +10,7 @@ export default function WeatherTable({
   currentLocation,
   handleUpdateWeather,
 }: WeatherTableProps) {
-  if (!weatherData) return null
+  if (!weatherData || !currentLocation) return null
 
   return (
     <section className="weather-table" data-testid="weather-table">
