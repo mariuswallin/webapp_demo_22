@@ -7,7 +7,7 @@ import { WeatherProvider } from '../context/WeatherContext'
 import Home from '../pages'
 
 describe('WeatherDropdown', () => {
-  it('should render dropdown', () => {
+  it('should throw error if no provider', () => {
     const spy = vi.spyOn(console, 'error')
     spy.mockImplementation(() => {})
     expect(() => render(<Home />)).toThrowError(
