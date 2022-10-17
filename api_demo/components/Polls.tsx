@@ -3,7 +3,7 @@ import { useState } from 'react'
 export default function Polls() {
   const [title, setTitle] = useState('')
 
-  const handleSubmit = async (event) => {
+  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault()
     const response = await fetch('/api/polls', {
       method: 'post',

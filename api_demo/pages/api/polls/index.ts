@@ -1,35 +1,31 @@
-// Next.js API route support: https://nextjs.org/docs/api-routes/introduction
-import type { NextApiRequest, NextApiResponse } from 'next'
+import { NextApiRequest, NextApiResponse } from 'next'
+import prisma from '../../../lib/db'
 
-const polls = [{ id: '1', title: 'Test' }]
-
-export default function handler(
+export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse<any>
 ) {
   switch (req.method?.toLowerCase()) {
     case 'get':
-      return res
-        .status(200)
-        .json({
-          status: true,
-          data: { method: req.method, resource: '/polls/index', polls },
-        })
-    case 'post':
-      const postInput = req.body
-      polls.push(postInput)
-      return res.status(201).json({
-        status: true,
-        data: { method: req.method, resource: '/polls/index', polls },
+      const polls = await prisma.poll.findMany({
+        include: {
+          questions: true,
+        },
       })
+      return res.status(200).json({ status: true, data: polls })
+    case 'post':
+      const data = req.body
+      if (!data.title)
+        return res
+          .status(400)
+          .json({ status: false, error: 'Title is required' })
+
+      const poll = await prisma.poll.create({ data })
+      return res.status(201).json({ status: true, data: poll })
     default:
       return res.status(400).json({
         success: false,
-        error: {
-          type: 'object',
-          status: '400',
-          message: 'Method not allowed',
-        },
+        error: 'Method not allowed',
       })
   }
 }

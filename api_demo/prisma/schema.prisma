@@ -1,0 +1,29 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = "file:./dev.db"
+}
+
+model Poll {
+  id          String     @id @default(cuid())
+  title       String    
+  endedAt     DateTime?
+  publishedAt DateTime?
+  createdAt   DateTime   @default(now())
+  updatedAt   DateTime   @updatedAt
+  questions   Question[]
+}
+
+model Question {
+  id       String @id @default(cuid())
+  question String
+  options  String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  poll     Poll   @relation(fields: [pollId], references: [id])
+  pollId   String
+}
