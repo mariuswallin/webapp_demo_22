@@ -23,7 +23,7 @@ export default async function handler(
       const poll = await prisma.poll.create({ data })
       return res.status(201).json({ status: true, data: poll })
     default:
-      return res.status(400).json({
+      return res.status(405).json({
         success: false,
         error: 'Method not allowed',
       })

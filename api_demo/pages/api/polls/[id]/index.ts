@@ -26,7 +26,7 @@ export default async function handler(
     case 'delete':
       return res.status(204).json({ status: true, data: {} })
     default:
-      return res.status(400).json({
+      return res.status(405).json({
         status: false,
         error: 'Method not allowed',
       })
