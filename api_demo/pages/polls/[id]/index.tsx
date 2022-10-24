@@ -1,8 +1,9 @@
-import Link from 'next/link'
+import { useRouter } from 'next/router'
 import { useEffect, useState } from 'react'
-import { getPolls } from '../../api/polls'
+import { getPoll } from '../../../api/polls'
 
-export default function Polls() {
+export default function Poll() {
+  const router = useRouter()
   const [status, setStatus] = useState('idle')
   const [data, setData] = useState({})
   const [error, setError] = useState({})
@@ -12,10 +13,12 @@ export default function Polls() {
   const isSuccess = status === 'success'
 
   useEffect(() => {
+    const pollId = router.query.id
+    if (!pollId) return
     const handler = async () => {
       setStatus('loading')
       try {
-        const result = await getPolls({})
+        const result = await getPoll(pollId)
         setStatus('success')
         setData(result)
       } catch (error) {
@@ -27,7 +30,7 @@ export default function Polls() {
       }
     }
     handler()
-  }, [])
+  }, [router.query])
 
   if (isLoading) {
     return <p>Henter data ...</p>
@@ -39,10 +42,7 @@ export default function Polls() {
 
   return (
     <div className="wrapper">
-      <h1>Polls</h1>
-      <Link href="/polls/new">
-        <a className="link create">Lag ny poll</a>
-      </Link>
+      <h1>Poll</h1>
       <p>Data: {JSON.stringify(data)}</p>
       <p>Error: {JSON.stringify(error)}</p>
     </div>

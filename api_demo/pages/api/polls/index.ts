@@ -7,6 +7,8 @@ export default async function handler(
 ) {
   switch (req.method?.toLowerCase()) {
     case 'get':
+      //throw new Error('Test')
+
       const polls = await prisma.poll.findMany({
         include: {
           questions: true,
